@@ -9,9 +9,30 @@ if not init then
     
     --##########################
     -- EDIT HERE
-    ProductName = "Product Name" -- Name of the product
-    BpPrice = "1250000" -- Price for a Blueprint
-    TokenPrice = "1250000" -- Price for a token
+    ProductName = "Taco Ship" -- Name of the product
+    BpPrice = "129999999999" -- Price for a Blueprint
+    TokenPrice = "72762562726" -- Price for a token
+    
+    -- Colors
+    --- Font Colors
+    HeaderFontColor = {r = 1.0, g = 1.0, b = 0.1, o = 1.0}
+    SubHeaderFontColor = {r = 1.0, g = 1.0, b = 0.1, o = 1.0}
+    FontColor = {r = 0.8, g = 0.8, b = 0.8, o = 1.0}
+    
+    --- Background colors
+    HeaderColor = {r = 0.055, g = 0.055, b = 0.055, o = 1.0}
+    InfoColumnHeader = {r = 0.095, g = 0.095, b = 0.095, o = 1.0}
+    BackgroundColor = {r = 0.125, g = 0.125, b = 0.125, o = 1.0}
+    
+    --- Tab Colors
+    DefaultTabHighlightColor = {r = 0.5, g = 0.5, b = 0.5, o = 1.0}
+    SelectedTabHighlightColor = {r = 1.0, g = 1.0, b = 0.1, o = 1.0}
+    
+    -- Buttons
+    DefaultButtonColor = {r = 0.055, g = 0.055, b = 0.055, o = 1.0}
+    DefaultButtonFontColor = {r = 1.0, g = 1.0, b = 1.0, o = 1.0}
+    PressedButtonColor = {r = 0.125, g = 0.125, b = 0.125, o = 1.0}
+    PressedButtonFontColor = {r = 1.0, g = 1.0, b = 0.1, o = 1.0}
     
     -- The images of the product that you want to display
     -- To add an image, simply copy one of the lines below and fill in the fields as desired
@@ -24,11 +45,13 @@ if not init then
     Gallery[#Gallery+1] = {Img = 'assets.prod.novaquark.com/50141/64b22960-0e0a-432c-b3e5-ac8ef63c346d.jpg', OptionalHeading = 'An Optional Heading', OptionalDescription = ''}
     Gallery[#Gallery+1] = {Img = 'assets.prod.novaquark.com/50141/119158c7-66d8-445f-a8eb-44831d188f31.jpg', OptionalHeading = '', OptionalDescription = 'This is an optional description area. It only shows when there is text provided in the optional text field for the currently selected image. Use it to help give context to your images'}
     Gallery[#Gallery+1] = {Img = 'assets.prod.novaquark.com/75251/192518e4-367b-4116-9e0f-26300d1b4f8f.jpg', OptionalHeading = '', OptionalDescription = ''}
+    Gallery[#Gallery+1] = {Img = 'assets.prod.novaquark.com/75251/192518e4-367b-4116-9e0f-26300d1b4f8f.jpg', OptionalHeading = 'TACO', OptionalDescription = 'I like Tacos'}
     
     Tabs[#Tabs+1] = {Name = 'Tab 1', Info = {{LongDescription = 'This is a really long description you can use to give your customers a description or some other wall of text. You can fit a lot in here as you can see. The quick brown fix jumps over the lazy dog. Even moar text. Is this long enough?'}}}
     Tabs[#Tabs+1] = {Name = 'Tab 2', Info = {{Key = 'Key 1', Value = 'Value 1'},{Key = 'Key 2', Value = 'Value 2'},{Key = 'Key 3', Value = 'Value 3'}}}
     Tabs[#Tabs+1] = {Name = 'Tab 3', Info = {{Key = 'Key 1', Value = 'Value 1'},{Key = 'Key 2', Value = 'Value 2'},{Key = 'Key 3', Value = 'Value 3'}}}
     Tabs[#Tabs+1] = {Name = 'Tab 4', Info = {{Key = 'Key 1', Value = 'Value 1'},{Key = 'Key 2', Value = 'Value 2'},{Key = 'Key 3', Value = 'Value 3'},{Key = 'Key 4', Value = 'Value 4'}}}
+    Tabs[#Tabs+1] = {Name = 'Taco', Info = {{Key = 'Shell', Value = '1'},{Key = 'Beef', Value = '2'},{Key = 'Cheese', Value = 'PepperJack'},{Key = 'Sauce', Value = 'Hot'},{Key = 'Gauc', Value = 'Extra'}}}
     -- END EDIT AREA
     --##########################
     
@@ -135,37 +158,6 @@ if not init then
         return {Value = value, Down = down, Click = click}
     end
     
-    function DisplayCounter(layer, x, y, font, label, text, labelColor)
-        DisplayText(layer, font, label, 15, y + math.floor(26/2), AlignH_Center, AlignV_Middle, labelColor)
-        DisplayText(layer, font, text, Screen.HalfInfoWidth + 10, y + math.floor(26/2), AlignH_Center, AlignV_Middle, ToColor(0.8,0.8,0.8,1.0))
-        DisplayBox(layer, 0, y - 2, Screen.InfoWidth, 30, ToColor(0.05, 0.05, 0.05, 1), nil, nil, nil, nil, nil)
-        DisplayBox(layer, x+20, y , Screen.InfoWidth - (30 + 2), 26, ToColor(0.25, 0.25, 0.25, 1), nil, nil, nil, nil, nil)
-        local down = CreateButton(layer, x+20, y, 60, 26, 'DOWN', 'DOWN', ToColor(.2, .2, .2, 1), ToColor(.1, .1, .1, 1), ToColor(1, 1, 0.2, 1), ToColor(0.6, 0.6, 0.2, 1), font, ToColor(0.0, 0.0, 0.0, 1))
-        local up = CreateButton(layer, Screen.InfoWidth - (60 + 2), y, 60, 26, 'UP', 'UP', ToColor(.2, .2, .2, 1), ToColor(.1, .1, .1, 1), ToColor(1, 1, 0.2, 1), ToColor(0.6, 0.6, 0.2, 1), font, ToColor(0.0, 0.0, 0.0, 1))
-        return {Left = down, Right = up}
-     end
-    
-    function HandleFontSelectionEvent(event, v, min, max, inc)
-        min = Ternary(min ~= nil, min, 0.0)
-        max = Ternary(max ~= nil, max, 1.0)
-        inc = Ternary(inc ~= nil, inc, 0.01)
-        
-        if event.Left.Click then 
-            v = Ternary(v - inc <= min, min, v - inc)
-            Mouse.DownCount = 0
-        elseif event.Right.Click then 
-            v = Ternary(v + inc >= max, max, v + inc)
-            Mouse.DownCount = 0
-        elseif event.Left.Down then 
-            if Mouse.DownCount > 5 then v = Ternary(v - inc <= min, min, v - inc) end
-            Mouse.DownCount = Mouse.DownCount + 1
-        elseif event.Right.Down then
-            if Mouse.DownCount > 5 then v = Ternary(v + inc >= max, max, v + inc) end
-            Mouse.DownCount = Mouse.DownCount + 1
-        end
-        return v
-    end
-    
     function ToCurrency(n)
         local c = tostring(n)
         c = c:reverse():gsub("%d%d%d", "%1,"):reverse():gsub("^,", "")
@@ -208,7 +200,7 @@ if math.floor(getTime() - LastAutoScroll)% 8 == 0 and math.floor(getTime() - Las
 end 
 
 for k,v in ipairs(Tabs) do
-    local tab = CreateButton(backlayer, 0, Screen.HeaderHeight + 10 + (35 * (k - 1)), Screen.InfoWidth, 35, v.Name, v.Name, Ternary(SelectedTab == k, ToColor(1, 1, 0.2, 1), ToColor(0.5, 0.5, 0.5, 1)), ToColor(.9, .9, .9, 1), ToColor(0.1, 0.1, 0.1, 0), ToColor(0.3, 0.3, 0.3, 0), btnfont, Ternary(SelectedTab == k, ToColor(1, 1, 0.2, 1), ToColor(0.5, 0.5, 0.5, 1)))
+    local tab = CreateButton(backlayer, 0, Screen.HeaderHeight + 10 + (35 * (k - 1)), Screen.InfoWidth, 35, v.Name, v.Name, Ternary(SelectedTab == k, SelectedTabHighlightColor, DefaultTabHighlightColor), ToColor(.9, .9, .9, 1), ToColor(0.0, 0.0, 0.0, 0), ToColor(0.0, 0.0, 0.0, 0), btnfont, Ternary(SelectedTab == k, SelectedTabHighlightColor, DefaultTabHighlightColor))
     if tab.Click then SelectedTab = k end
 end
 
@@ -216,28 +208,28 @@ for k,v in ipairs(Tabs[SelectedTab].Info) do
     local y = Screen.HeaderHeight + 30 + (#Tabs * 35) + (18 * (k - 1))
     
     if v.LongDescription == nil then
-        DisplayText(backlayer, descriptionfont, v.Key, 5, y, AlignH_Left, AlignV_Middle, ToColor(0.8, 0.8, 0.8, 1))
-        DisplayText(backlayer, idescriptionfont, v.Value, Screen.InfoWidth - 5, y, AlignH_Right, AlignV_Middle, ToColor(0.8, 0.8, 0.8, 1))
+        DisplayText(backlayer, descriptionfont, v.Key, 5, y, AlignH_Left, AlignV_Middle, FontColor)
+        DisplayText(backlayer, idescriptionfont, v.Value, Screen.InfoWidth - 5, y, AlignH_Right, AlignV_Middle, FontColor)
     else
-        DisplayTextArea(backlayer, v.LongDescription, math.floor(Screen.InfoWidth/2), y, Screen.InfoWidth, 25, descriptionfont, AlignH_Center, AlignV_Middle, ToColor(0.8, 0.8, 0.8, 1))
+        DisplayTextArea(backlayer, v.LongDescription, math.floor(Screen.InfoWidth/2), y, Screen.InfoWidth, 25, descriptionfont, AlignH_Center, AlignV_Middle, FontColor)
     end
 end
 
 -- Display the selected img
-local btnPrev = CreateButton(forelayer, Screen.InfoWidth + 15, Screen.Height - 50, 100, 38, "PREV", "PREV", ToColor(.9, .9, .9, 1), ToColor(.9, .9, .9, 1), ToColor(0.1, 0.1, 0.1, 1), ToColor(0.3, 0.3, 0.3, 1), btnfont, ToColor(0.0, 0.0, 0.0, 1))
-local btnNext = CreateButton(forelayer, Screen.Width - 115, Screen.Height - 50, 100, 38, "NEXT", "NEXT", ToColor(.8, .8, .8, 1), ToColor(.9, .9, .9, 1), ToColor(0.1, 0.1, 0.1, 1), ToColor(0.3, 0.3, 0.3, 1), btnfont, ToColor(0.0, 0.0, 0.0, 1))
+local btnPrev = CreateButton(forelayer, Screen.InfoWidth + 15, Screen.Height - 50, 100, 38, "PREV", "PREV", DefaultButtonFontColor, PressedButtonFontColor, DefaultButtonColor, PressedButtonColor, btnfont, ToColor(0.0, 0.0, 0.0, 1))
+local btnNext = CreateButton(forelayer, Screen.Width - 115, Screen.Height - 50, 100, 38, "NEXT", "NEXT", DefaultButtonFontColor, PressedButtonFontColor, DefaultButtonColor, PressedButtonColor, btnfont, ToColor(0.0, 0.0, 0.0, 1))
 if btnNext.Click then NextImg() end
 if btnPrev.Click then PrevImg() end
 
 if Gallery[CurrentGalleryImageIndex].OptionalHeading ~= nil and Gallery[CurrentGalleryImageIndex].OptionalHeading ~= '' then
     local o = Ternary(Mouse.x > Screen.InfoWidth + 15 and Mouse.x < Screen.InfoWidth + 15 + Screen.ContentWidth - 25 and Mouse.y > Screen.HeaderHeight and Mouse.y < Screen.HeaderHeight + 90, .9, .7)
-    DisplayText(panellayer, titlefont, Gallery[CurrentGalleryImageIndex].OptionalHeading, Screen.HalfWidth + math.floor(Screen.InfoWidth/2), Screen.HeaderHeight + 45, AlignH_Center, AlignV_Middle, ToColor(1, 1, .2, 1))
+    DisplayText(panellayer, titlefont, Gallery[CurrentGalleryImageIndex].OptionalHeading, Screen.HalfWidth + math.floor(Screen.InfoWidth/2), Screen.HeaderHeight + 45, AlignH_Center, AlignV_Middle, SubHeaderFontColor)
     DisplayBox(forelayer, Screen.InfoWidth + 15, Screen.HeaderHeight, Screen.ContentWidth - 25, 90, ToColor(0, 0, 0, o), ToColor(0, 0, 0, o), 25, nil, nil, nil)
 end
 
 if Gallery[CurrentGalleryImageIndex].OptionalDescription ~= nil and Gallery[CurrentGalleryImageIndex].OptionalDescription ~= '' then
     local o = Ternary(Mouse.x > Screen.InfoWidth + 125 and Mouse.x < Screen.InfoWidth + 125 + Screen.ContentWidth - 250 and Mouse.y > Screen.Height - 135 and Mouse.y < Screen.Height - 135 + 135, .9, .7)
-    DisplayTextArea(panellayer, Gallery[CurrentGalleryImageIndex].OptionalDescription, Screen.HalfWidth + math.floor(Screen.InfoWidth/2), Screen.Height - 125, 180, 45, descriptionfont, AlignH_Center, AlignV_Middle, ToColor(.75, .75, .75, 1))
+    DisplayTextArea(panellayer, Gallery[CurrentGalleryImageIndex].OptionalDescription, Screen.HalfWidth + math.floor(Screen.InfoWidth/2), Screen.Height - 125, 180, 45, descriptionfont, AlignH_Center, AlignV_Middle, FontColor)
     DisplayBox(forelayer, Screen.InfoWidth + 125, Screen.Height - 135, Screen.ContentWidth - 250, 135, ToColor(0, 0, 0, o), ToColor(0, 0, 0, o), 25, nil, nil, nil)
 end
 
@@ -247,12 +239,18 @@ addImage(forelayer, CurrentImage, Screen.InfoWidth, Screen.HeaderHeight, Screen.
 DisplayBox(panellayer, 0, Screen.Height - 3, Screen.InfoWidth - GetPercNum(Screen.InfoWidth, GetPerc((Ternary(LastPlayerInteraction == nil,LastAutoScroll,LastPlayerInteraction) - getTime())% Ternary(LastPlayerInteraction == nil,8,30),Ternary(LastPlayerInteraction == nil,8,30))), 3, ToColor(1, 1, 1, 1), ToColor(1, 1, 1, 1), 2, nil, nil, nil)
 
 -- Header and Info
-DisplayBox(forelayer, 0, 0, Screen.InfoWidth, Screen.InfoHeight, ToColor(.15, .15, .15, 1), ToColor(0, 0, 0, 1), 15, nil, nil, nil)
-DisplayBox(backlayer, 0, 0, Screen.HeaderWidth, Screen.HeaderHeight, ToColor(0.1, 0.1, 0.1, 1), ToColor(0, 0, 0, 1), 25, nil, nil, nil)
-DisplayText(backlayer, headerfont, ProductName, 15, 50, AlignH_Left, AlignV_Middle, ToColor(1, 1, .2, 1))
-DisplayText(backlayer, pricefont, 'BP: '..ToCurrency(BpPrice), Screen.Width - 15, 20, AlignH_Right, AlignV_Middle, ToColor(.9, .9, .9, 1))
-DisplayText(backlayer, pricefont, 'Token: '..ToCurrency(TokenPrice), Screen.Width - 15, 55, AlignH_Right, AlignV_Middle, ToColor(.9, .9, .9, 1))
+DisplayBox(forelayer, 0, 0, Screen.InfoWidth, Screen.InfoHeight, InfoColumnHeader, ToColor(0, 0, 0, 1), 15, nil, nil, nil)
+DisplayBox(backlayer, 0, 0, Screen.HeaderWidth, Screen.HeaderHeight, HeaderColor, ToColor(0, 0, 0, 1), 25, nil, nil, nil)
+DisplayText(backlayer, headerfont, ProductName, 15, 50, AlignH_Left, AlignV_Middle, HeaderFontColor)
 
-setBackgroundColor(.1, .1, .1)
+if BpPrice ~= "" then
+    DisplayText(backlayer, pricefont, 'BP: '..ToCurrency(BpPrice), Screen.Width - 15, math.floor(Screen.HeaderHeight/2) + Ternary(TokenPrice ~= "",-15,0), AlignH_Right, AlignV_Middle, FontColor)
+end
+
+if TokenPrice ~= "" then
+    DisplayText(backlayer, pricefont, 'Token: '..ToCurrency(TokenPrice), Screen.Width - 15, math.floor(Screen.HeaderHeight/2) + Ternary(BpPrice ~= "",15,0), AlignH_Right, AlignV_Middle, FontColor)
+end
+
+setBackgroundColor(BackgroundColor.r, BackgroundColor.g, BackgroundColor.b)
 
 requestAnimationFrame(2)
